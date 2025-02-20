@@ -1,21 +1,39 @@
-const db = require("../config/db");
+const { DataTypes } = require("sequelize");
+const sequelize = require("../config/db");
 
-const User = {
-  findByEmail: (email, callback) => {
-    db.query("SELECT * FROM users WHERE email = ?", [email], callback);
+const User = sequelize.define(
+  "User",
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: true, // ✅ Allow NULL
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: true, // ✅ Allow NULL
+    },
   },
-
-  create: (name, email, hashedPassword, callback) => {
-    db.query(
-      "INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
-      [name, email, hashedPassword],
-      callback
-    );
-  },
-
-  getAll: (callback) => {
-    db.query("SELECT id, name, email FROM users", callback);
-  },
-};
+  {
+    timestamps: true, // Keep timestamps enabled
+  }
+);
 
 module.exports = User;
