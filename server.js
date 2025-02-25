@@ -20,7 +20,7 @@ app.use("/api/auth", authRoutes);
 const connectDB = async () => {
   try {
     await sequelize.authenticate(); // Check DB connection
-    console.log("✅ Connected to PostgreSQL database using Sequelize");
+    console.log("✅ Connected to MySQL database using Sequelize");
     
     await sequelize.sync({ alter: true }); // Sync models with DB
     console.log("✅ Database synchronized successfully");
